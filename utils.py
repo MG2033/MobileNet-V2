@@ -11,7 +11,7 @@ def parse_args():
     :rtype: tuple
     """
     # Create a parser
-    parser = argparse.ArgumentParser(description="MobileNet-V2 PyTorch Implementation")
+    parser = argparse.ArgumentParser(description="MobileNet-V2 TensorFlow Implementation")
     parser.add_argument('--version', action='version', version='%(prog)s 0.0.1')
     parser.add_argument('--config', default=None, type=str, help='Configuration file')
 
