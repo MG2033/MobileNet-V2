@@ -1,6 +1,6 @@
 from model import MobileNetV2
 from utils import parse_args, create_experiment_dirs
-
+import torch.nn as nn
 
 def main():
     # Parse the JSON arguments
@@ -20,6 +20,11 @@ def main():
 
     # Model Summary
     print(model)
+
+    x = model.state_dict()
+
+    for key in x.keys():
+        print(key)
 
 
 if __name__ == "__main__":

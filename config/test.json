@@ -9,7 +9,6 @@
   "width_multiplier": 1.0,
   "kernel_size": 3,
   "l2_strength": 4e-5,
-  "bias": 0.0,
   "learning_rate": 1e-3,
   "dropout_prob": 0.0,
   "pretrained_path": "",
