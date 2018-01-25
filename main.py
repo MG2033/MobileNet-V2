@@ -18,6 +18,9 @@ def main():
     if config_args.cuda:
         model.cuda()
 
+    # Model Summary
+    print(model)
+
 
 if __name__ == "__main__":
     main()
