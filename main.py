@@ -1,6 +1,8 @@
 from model import MobileNetV2
 from utils import parse_args, create_experiment_dirs
-import torch.nn as nn
+import torch
+from torch.autograd import Variable
+
 
 def main():
     # Parse the JSON arguments
@@ -18,13 +20,13 @@ def main():
     if config_args.cuda:
         model.cuda()
 
-    # Model Summary
-    print(model)
-
-    x = model.state_dict()
-
-    for key in x.keys():
-        print(key)
+    try:
+        print("Loading ImageNet pretrained weights...")
+        pretrained_dict = torch.load(config_args.pretrained_path)
+        model.load_state_dict(pretrained_dict)
+        print("ImageNet pretrained weights loaded successfully.\n")
+    except:
+        print("No ImageNet pretrained weights exist. Skipping...\n")
 
 
 if __name__ == "__main__":
