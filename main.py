@@ -1,6 +1,6 @@
 from model import MobileNetV2
 from utils import parse_args, create_experiment_dirs
-import torch
+import torch.backends.cudnn as cudnn
 
 
 def main():
@@ -18,14 +18,8 @@ def main():
 
     if config_args.cuda:
         model.cuda()
-
-    try:
-        print("Loading ImageNet pretrained weights...")
-        pretrained_dict = torch.load(config_args.pretrained_path)
-        model.load_state_dict(pretrained_dict)
-        print("ImageNet pretrained weights loaded successfully.\n")
-    except:
-        print("No ImageNet pretrained weights exist. Skipping...\n")
+        cudnn.enabled = True
+        cudnn.benchmark = True
 
 
 if __name__ == "__main__":
