@@ -1,7 +1,6 @@
 from model import MobileNetV2
 from utils import parse_args, create_experiment_dirs
 import torch
-from torch.autograd import Variable
 
 
 def main():
