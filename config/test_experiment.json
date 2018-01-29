@@ -13,15 +13,15 @@
 
   "width_multiplier": 1.0,
   "kernel_size": 3,
-  "weight_decay": 0,
+  "weight_decay": 4e-5,
   "momentum": 0.9,
-  "learning_rate": 0.045,
-  "learning_rate_decay": 1.0,
+  "learning_rate": 5e-3,
+  "learning_rate_decay": 0.98,
   "dropout_prob": 0.0,
 
   "resume_from": "checkpoint.pth.tar",
   "pretrained_path": "pretrained_weights/",
-  "test_every": 5,
+  "test_every": 10,
   "to_train": true,
   "to_test": true,
 

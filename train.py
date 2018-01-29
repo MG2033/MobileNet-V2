@@ -102,7 +102,7 @@ class Train:
             top1.update(cur_acc1[0])
             top5.update(cur_acc5[0])
 
-        print(" Test Results" + " | " + "loss: " + str(loss.avg) + " - acc-top1: " + str(
+        print("Test Results" + " | " + "loss: " + str(loss.avg) + " - acc-top1: " + str(
             top1.avg)[:7] + "- acc-top5: " + str(top5.avg)[:7])
 
     def save_checkpoint(self, state, is_best, filename='checkpoint.pth.tar'):
@@ -116,13 +116,13 @@ class Train:
         maxk = max(topk)
         batch_size = target.size(0)
 
-        # topk: Returns the k largest elements of the given input tensor along a given dimension.
-        _, idx = output.topk(maxk, dim=1, largest=True, sorted=True)
-        correct = idx.eq(target.view(-1, 1).expand_as(idx))
+        _, idx = output.topk(maxk, 1, True, True)
+        idx = idx.t()
+        correct = idx.eq(target.view(1, -1).expand_as(idx))
 
         acc_arr = []
         for k in topk:
-            correct_k = correct[:][:k].view(-1).float().sum(0, keepdim=True)
+            correct_k = correct[:k].view(-1).float().sum(0, keepdim=True)
             acc_arr.append(correct_k.mul_(1.0 / batch_size))
         return acc_arr
 
