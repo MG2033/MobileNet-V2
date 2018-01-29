@@ -22,7 +22,6 @@
   "resume_from": "checkpoint.pth.tar",
   "pretrained_path": "pretrained_weights/",
   "test_every": 5,
-  "max_to_keep": 5,
   "to_train": true,
   "to_test": true,
 
