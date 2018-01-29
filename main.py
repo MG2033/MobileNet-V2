@@ -1,6 +1,7 @@
 from model import MobileNetV2
 from utils import parse_args, create_experiment_dirs
 import torch.backends.cudnn as cudnn
+from cifar100data import CIFAR100Data
 
 
 def main():
@@ -20,6 +21,11 @@ def main():
         model.cuda()
         cudnn.enabled = True
         cudnn.benchmark = True
+
+    print("Loading Data...")
+    data = CIFAR100Data(config_args)
+    data.plot_random_sample()
+    print("Data loaded successfully\n")
 
 
 if __name__ == "__main__":

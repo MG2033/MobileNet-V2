@@ -1,11 +1,16 @@
 {
   "experiment_dir": "test_experiment",
+
   "num_epochs": 100,
   "img_height": 224,
   "img_width": 224,
   "num_channels": 3,
   "num_classes": 1000,
   "batch_size": 16,
+  "dataloader_workers": 4,
+  "download_dataset": false,
+  "shuffle": true,
+
   "width_multiplier": 1.0,
   "kernel_size": 3,
   "weight_decay": 4e-5,
@@ -13,11 +18,11 @@
   "learning_rate": 0.045,
   "dropout_prob": 0.0,
   "pretrained_path": "pretrained_weights/",
-  "max_to_keep": 4,
-  "save_model_every": 5,
   "test_every": 5,
-  "shuffle": true,
   "to_train": true,
   "to_test": true,
-  "cuda": true
+
+  "cuda": true,
+  "pin_memory": true,
+  "async_loading": true
 }
