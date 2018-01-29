@@ -36,7 +36,7 @@ class Train:
             self.adjust_learning_rate(self.optimizer, cur_epoch)
 
             # Meters for tracking the average values
-            avg_loss, avg_top1, avg_top5 = AverageTracker(), AverageTracker(), AverageTracker()
+            loss, top1, top5 = AverageTracker(), AverageTracker(), AverageTracker()
 
             # Set the model to be in training mode (for dropout and batchnorm)
             self.model.train()
@@ -58,22 +58,22 @@ class Train:
 
                 # Top-1 and Top-5 Accuracy Calculation
                 cur_acc1, cur_acc5 = self.compute_accuracy(output.data, target, topk=(1, 5))
-                avg_loss.update(cur_loss.data[0])
-                avg_top1.update(cur_acc1[0])
-                avg_top5.update(cur_acc5[0])
+                loss.update(cur_loss.data[0])
+                top1.update(cur_acc1[0])
+                top5.update(cur_acc5[0])
 
             # Print in console
             tqdm_batch.close()
-            print("Epoch-" + str(cur_epoch) + " | " + "loss: " + str(avg_loss) + " - acc-top1: " + str(
-                avg_top1)[:7] + "- acc-top5: " + str(avg_top5)[:7])
+            print("Epoch-" + str(cur_epoch) + " | " + "loss: " + str(loss.avg) + " - acc-top1: " + str(
+                top1.avg)[:7] + "- acc-top5: " + str(top5.avg)[:7])
 
             # Evaluate on Validation Set
             if cur_epoch % self.args.test_every == 0 and self.valloader:
                 self.test(self.valloader)
 
             # Checkpointing
-            is_best = avg_top1 > self.best_top1
-            self.best_top1 = max(avg_top1, self.best_top1)
+            is_best = top1.avg > self.best_top1
+            self.best_top1 = max(top1.avg, self.best_top1)
             self.save_checkpoint({
                 'epoch': cur_epoch + 1,
                 'state_dict': self.model.state_dict(),
@@ -82,7 +82,7 @@ class Train:
             }, is_best)
 
     def test(self, testloader):
-        avg_loss, avg_top1, avg_top5 = AverageTracker(), AverageTracker(), AverageTracker()
+        loss, top1, top5 = AverageTracker(), AverageTracker(), AverageTracker()
 
         # Set the model to be in testing mode (for dropout and batchnorm)
         self.model.eval()
@@ -98,12 +98,12 @@ class Train:
 
             # Top-1 and Top-5 Accuracy Calculation
             cur_acc1, cur_acc5 = self.compute_accuracy(output.data, target, topk=(1, 5))
-            avg_loss.update(cur_loss.data[0])
-            avg_top1.update(cur_acc1[0])
-            avg_top5.update(cur_acc5[0])
+            loss.update(cur_loss.data[0])
+            top1.update(cur_acc1[0])
+            top5.update(cur_acc5[0])
 
-        print(" Test Results" + " | " + "loss: " + str(avg_loss) + " - acc-top1: " + str(
-            avg_top1)[:7] + "- acc-top5: " + str(avg_top5)[:7])
+        print(" Test Results" + " | " + "loss: " + str(loss.avg) + " - acc-top1: " + str(
+            top1.avg)[:7] + "- acc-top5: " + str(top5.avg)[:7])
 
     def save_checkpoint(self, state, is_best, filename='checkpoint.pth.tar'):
         torch.save(state, filename)
