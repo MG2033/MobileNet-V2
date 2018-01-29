@@ -8,10 +8,10 @@ from tqdm import tqdm
 
 
 class Train:
-    def __init__(self, model, trainloader, testloader, args):
+    def __init__(self, model, trainloader, valloader, args):
         self.model = model
         self.trainloader = trainloader
-        self.testloader = testloader
+        self.valloader = valloader
         self.args = args
         self.start_epoch = 0
         self.best_top1 = 0.0
@@ -45,22 +45,22 @@ class Train:
 
                 if self.args.cuda:
                     data, target = data.cuda(async=self.args.async_loading), target.cuda(async=self.args.async_loading)
-                data, target = Variable(data), Variable(target)
+                data_var, target_var = Variable(data), Variable(target)
 
                 # Forward pass
-                output = self.model(data)
-                cur_loss = self.loss(output, target)
+                output = self.model(data_var)
+                cur_loss = self.loss(output, target_var)
 
                 # Optimization step
                 self.optimizer.zero_grad()
-                self.loss.backward()
+                cur_loss.backward()
                 self.optimizer.step()
 
                 # Top-1 and Top-5 Accuracy Calculation
                 cur_acc1, cur_acc5 = self.compute_accuracy(output.data, target, topk=(1, 5))
-                avg_loss.update(cur_loss)
-                avg_top1.update(cur_acc1)
-                avg_top5.update(cur_acc5)
+                avg_loss.update(cur_loss.data[0])
+                avg_top1.update(cur_acc1[0])
+                avg_top5.update(cur_acc5[0])
 
             # Print in console
             tqdm_batch.close()
@@ -68,8 +68,8 @@ class Train:
                 avg_top1)[:7] + "- acc-top5: " + str(avg_top5)[:7])
 
             # Evaluate on Validation Set
-            if cur_epoch % self.args.test_every == 0:
-                self.test()
+            if cur_epoch % self.args.test_every == 0 and self.valloader:
+                self.test(self.valloader)
 
             # Checkpointing
             is_best = avg_top1 > self.best_top1
@@ -81,26 +81,26 @@ class Train:
                 'optimizer': self.optimizer.state_dict(),
             }, is_best)
 
-    def test(self):
+    def test(self, testloader):
         avg_loss, avg_top1, avg_top5 = AverageTracker(), AverageTracker(), AverageTracker()
 
         # Set the model to be in testing mode (for dropout and batchnorm)
         self.model.eval()
 
-        for data, target in self.testloader:
+        for data, target in testloader:
             if self.args.cuda:
                 data, target = data.cuda(async=self.args.async_loading), target.cuda(async=self.args.async_loading)
-            data, target = Variable(data, volatile=True), Variable(target, volatile=True)
+            data_var, target_var = Variable(data, volatile=True), Variable(target, volatile=True)
 
             # Forward pass
-            output = self.model(data)
-            cur_loss = self.loss(output, target)
+            output = self.model(data_var)
+            cur_loss = self.loss(output, target_var)
 
             # Top-1 and Top-5 Accuracy Calculation
             cur_acc1, cur_acc5 = self.compute_accuracy(output.data, target, topk=(1, 5))
-            avg_loss.update(cur_loss)
-            avg_top1.update(cur_acc1)
-            avg_top5.update(cur_acc5)
+            avg_loss.update(cur_loss.data[0])
+            avg_top1.update(cur_acc1[0])
+            avg_top5.update(cur_acc5[0])
 
         print(" Test Results" + " | " + "loss: " + str(avg_loss) + " - acc-top1: " + str(
             avg_top1)[:7] + "- acc-top5: " + str(avg_top5)[:7])

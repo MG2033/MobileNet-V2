@@ -55,9 +55,11 @@ class MobileNetV2(nn.Module):
         self.initialize()
 
     def forward(self, x):
-        for op in self.network:
-            x = op(x)
-            print(x.shape)
+        # Debugging mode
+        # for op in self.network:
+        #     x = op(x)
+        #     print(x.shape)
+        x = self.network(x)
         x = x.view(-1, self.num_classes)
         return x
 

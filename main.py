@@ -2,6 +2,7 @@ from model import MobileNetV2
 from utils import parse_args, create_experiment_dirs
 import torch.backends.cudnn as cudnn
 from cifar100data import CIFAR100Data
+from train import Train
 
 
 def main():
@@ -24,8 +25,23 @@ def main():
 
     print("Loading Data...")
     data = CIFAR100Data(config_args)
-    data.plot_random_sample()
+    # data.plot_random_sample()
     print("Data loaded successfully\n")
+
+    trainer = Train(model, data.trainloader, data.testloader, config_args)
+
+    if config_args.to_train:
+        try:
+            print("Training...")
+            trainer.train()
+            print("Training Finished\n")
+        except KeyboardInterrupt:
+            pass
+
+    if config_args.to_test:
+        print("Testing...")
+        trainer.test(data.testloader)
+        print("Testing Finished\n")
 
 
 if __name__ == "__main__":

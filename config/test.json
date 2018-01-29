@@ -2,11 +2,11 @@
   "experiment_dir": "test_experiment",
 
   "num_epochs": 100,
-  "img_height": 224,
-  "img_width": 224,
+  "img_height": 32,
+  "img_width": 32,
   "num_channels": 3,
-  "num_classes": 1000,
-  "batch_size": 16,
+  "num_classes": 100,
+  "batch_size": 256,
   "dataloader_workers": 4,
   "download_dataset": false,
   "shuffle": true,
@@ -19,6 +19,7 @@
   "dropout_prob": 0.0,
   "pretrained_path": "pretrained_weights/",
   "test_every": 5,
+  "max_to_keep": 5,
   "to_train": true,
   "to_test": true,
 
