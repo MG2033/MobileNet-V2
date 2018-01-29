@@ -25,7 +25,7 @@
   "to_train": true,
   "to_test": true,
 
-  "cuda": false,
+  "cuda": true,
   "pin_memory": true,
   "async_loading": true
 }
