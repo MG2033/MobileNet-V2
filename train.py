@@ -127,7 +127,7 @@ class Train:
 
     def adjust_learning_rate(self, optimizer, epoch):
         """Sets the learning rate to the initial LR multiplied by 0.98 every epoch"""
-        learning_rate = self.args.learning_rate * (0.98 ** epoch)
+        learning_rate = self.args.learning_rate * (self.args.learning_rate_decay ** epoch)
         for param_group in optimizer.param_groups:
             param_group['lr'] = learning_rate
 

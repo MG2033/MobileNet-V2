@@ -16,6 +16,7 @@
   "weight_decay": 4e-5,
   "momentum": 0.9,
   "learning_rate": 0.045,
+  "learning_rate_decay": 0.98,
   "dropout_prob": 0.0,
   "pretrained_path": "pretrained_weights/",
   "test_every": 5,
