@@ -23,7 +23,7 @@ class Train:
 
         # Model Loading
         self.load_pretrained_model()
-        self.load_checkpoint()
+        self.load_checkpoint(self.args.resume_from)
 
     def train(self):
         for cur_epoch in range(self.start_epoch, self.args.num_epochs):
@@ -108,7 +108,8 @@ class Train:
     def save_checkpoint(self, state, is_best, filename='checkpoint.pth.tar'):
         torch.save(state, self.args.checkpoint_dir + "/" + filename)
         if is_best:
-            shutil.copyfile(filename, self.args.checkpoint_dir + "/" + 'model_best.pth.tar')
+            shutil.copyfile(self.args.checkpoint_dir + "/" + filename,
+                            self.args.checkpoint_dir + "/" + 'model_best.pth.tar')
 
     def compute_accuracy(self, output, target, topk=(1,)):
         """Computes the accuracy@k for the specified values of k"""
@@ -147,10 +148,11 @@ class Train:
         except:
             print("No ImageNet pretrained weights exist. Skipping...\n")
 
-    def load_checkpoint(self):
+    def load_checkpoint(self, filename):
+        filename = self.args.checkpoint_dir + "/" + filename
         try:
-            print("Loading checkpoint '{}'".format(self.args.checkpoint_dir))
-            checkpoint = torch.load(self.args.checkpoint_dir)
+            print("Loading checkpoint '{}'".format(filename))
+            checkpoint = torch.load(filename)
             self.start_epoch = checkpoint['epoch']
             self.best_top1 = checkpoint['best_acc']
             self.model.load_state_dict(checkpoint['state_dict'])

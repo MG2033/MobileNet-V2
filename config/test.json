@@ -18,6 +18,8 @@
   "learning_rate": 0.045,
   "learning_rate_decay": 0.98,
   "dropout_prob": 0.0,
+
+  "resume_from": "checkpoint.pth.tar",
   "pretrained_path": "pretrained_weights/",
   "test_every": 5,
   "max_to_keep": 5,
