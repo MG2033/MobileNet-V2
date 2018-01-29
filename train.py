@@ -106,9 +106,9 @@ class Train:
             top1.avg)[:7] + "- acc-top5: " + str(top5.avg)[:7])
 
     def save_checkpoint(self, state, is_best, filename='checkpoint.pth.tar'):
-        torch.save(state, filename)
+        torch.save(state, self.args.checkpoint_dir + "/" + filename)
         if is_best:
-            shutil.copyfile(filename, 'model_best.pth.tar')
+            shutil.copyfile(filename, self.args.checkpoint_dir + "/" + 'model_best.pth.tar')
 
     def compute_accuracy(self, output, target, topk=(1,)):
         """Computes the accuracy@k for the specified values of k"""
