@@ -133,7 +133,10 @@ class Train:
             param_group['lr'] = learning_rate
 
     def create_optimization(self):
-        self.loss = nn.CrossEntropyLoss().cuda()
+        self.loss = nn.CrossEntropyLoss()
+
+        if self.args.cuda:
+            self.loss.cuda()
 
         self.optimizer = RMSprop(self.model.parameters(), self.args.learning_rate,
                                  momentum=self.args.momentum,
