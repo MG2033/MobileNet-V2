@@ -1,7 +1,7 @@
 {
-  "experiment_dir": "test_experiment",
+  "experiment_dir": "cifar10_test_exp",
 
-  "num_epochs": 400,
+  "num_epochs": 800,
   "img_height": 32,
   "img_width": 32,
   "num_channels": 3,

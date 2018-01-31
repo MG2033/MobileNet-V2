@@ -1,0 +1,31 @@
+{
+  "experiment_dir": "cifar100_test_exp",
+
+  "num_epochs": 800,
+  "img_height": 32,
+  "img_width": 32,
+  "num_channels": 3,
+  "num_classes": 100,
+  "batch_size": 32,
+  "dataloader_workers": 4,
+  "download_dataset": true,
+  "shuffle": true,
+
+  "width_multiplier": 1.0,
+  "kernel_size": 3,
+  "weight_decay": 1e-4,
+  "momentum": 0.9,
+  "learning_rate": 1e-4,
+  "learning_rate_decay": 0.98,
+  "dropout_prob": 0.0,
+
+  "resume_from": "checkpoint.pth.tar",
+  "pretrained_path": "pretrained_weights/",
+  "test_every": 10,
+  "to_train": true,
+  "to_test": true,
+
+  "cuda": true,
+  "pin_memory": true,
+  "async_loading": true
+}
