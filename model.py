@@ -51,6 +51,7 @@ class MobileNetV2(nn.Module):
         ###############################################################################################################
 
         # Classification part
+        self.network.append(nn.Dropout2d(args.dropout_prob, inplace=True))
         self.network.append(nn.AvgPool2d((args.img_height // args.downsampling, args.img_width // args.downsampling)))
         self.network.append(nn.Dropout2d(args.dropout_prob, inplace=True))
         self.network.append(
