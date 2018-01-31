@@ -5,6 +5,7 @@ from torch.autograd import Variable
 import shutil
 from utils import AverageTracker
 from tqdm import tqdm
+from tensorboardX import SummaryWriter
 
 
 class Train:
@@ -14,6 +15,7 @@ class Train:
         self.valloader = valloader
         self.args = args
         self.start_epoch = 0
+        self.global_step = 0
         self.best_top1 = 0.0
 
         # Loss function and Optimizer
@@ -24,6 +26,9 @@ class Train:
         # Model Loading
         self.load_pretrained_model()
         self.load_checkpoint(self.args.resume_from)
+
+        # Tensorboard Writer
+        self.summary_writer = SummaryWriter(log_dir=args.summary_dir)
 
     def train(self):
         for cur_epoch in range(self.start_epoch, self.args.num_epochs):
@@ -62,6 +67,14 @@ class Train:
                 top1.update(cur_acc1[0])
                 top5.update(cur_acc5[0])
 
+                # Iteration Increment
+                self.global_step += 1
+
+            # Summary Writing
+            self.summary_writer.add_scalar("iteration-loss", loss.avg, self.global_step)
+            self.summary_writer.add_scalar("iteration-top-1-acc", top1.avg, self.global_step)
+            self.summary_writer.add_scalar("iteration-top-5-acc", top5.avg, self.global_step)
+
             # Print in console
             tqdm_batch.close()
             print("Epoch-" + str(cur_epoch) + " | " + "loss: " + str(loss.avg) + " - acc-top1: " + str(
@@ -76,6 +89,7 @@ class Train:
             self.best_top1 = max(top1.avg, self.best_top1)
             self.save_checkpoint({
                 'epoch': cur_epoch + 1,
+                'global_step': self.global_step,
                 'state_dict': self.model.state_dict(),
                 'best_top1': self.best_top1,
                 'optimizer': self.optimizer.state_dict(),
@@ -158,6 +172,7 @@ class Train:
             checkpoint = torch.load(filename)
             self.start_epoch = checkpoint['epoch']
             self.best_top1 = checkpoint['best_top1']
+            self.global_step = checkpoint['global_step']
             self.model.load_state_dict(checkpoint['state_dict'])
             self.optimizer.load_state_dict(checkpoint['optimizer'])
             print("Checkpoint loaded successfully from '{}' at (epoch {})\n"
