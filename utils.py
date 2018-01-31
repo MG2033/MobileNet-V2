@@ -2,6 +2,7 @@ from bunch import Bunch
 import json
 import argparse
 import os
+import numpy as np
 
 
 def parse_args():
@@ -49,6 +50,10 @@ def create_experiment_dirs(exp_dir):
     except Exception as err:
         print("Creating directories error: {0}".format(err))
         exit(-1)
+
+
+def calc_dataset_stats(dataset, axis=0, ep=1e-7):
+    return (np.mean(dataset, axis=axis) / 255.0).tolist(), (np.std(dataset + ep, axis=axis) / 255.0).tolist()
 
 
 class AverageTracker:
