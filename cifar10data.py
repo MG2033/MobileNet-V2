@@ -17,6 +17,7 @@ class CIFAR10Data:
         train_transform = transforms.Compose(
             [transforms.RandomCrop(args.img_height),
              transforms.RandomHorizontalFlip(),
+             transforms.ColorJitter(0.3, 0.3, 0.3),
              transforms.ToTensor(),
              transforms.Normalize(mean=mean, std=std)])
 
