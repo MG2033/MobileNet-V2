@@ -13,10 +13,10 @@
 
   "width_multiplier": 1.0,
   "kernel_size": 3,
-  "weight_decay": 0.0,
+  "weight_decay": 1e-4,
   "momentum": 0.9,
   "learning_rate": 1e-4,
-  "learning_rate_decay": 0.99,
+  "learning_rate_decay": 0.98,
   "dropout_prob": 0.0,
 
   "resume_from": "checkpoint.pth.tar",
