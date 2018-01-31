@@ -11,11 +11,14 @@ import numpy as np
 class CIFAR10Data:
     def __init__(self, args):
         mean, std = calc_dataset_stats(torchvision.datasets.CIFAR10(root='./data', train=True,
-                                                                     download=args.download_dataset).train_data,
+                                                                    download=args.download_dataset).train_data,
                                        axis=(0, 1, 2))
 
         transform = transforms.Compose(
-            [transforms.ToTensor(), transforms.Normalize(mean=mean, std=std)])
+            [transforms.RandomCrop(args.img_height),
+             transforms.RandomHorizontalFlip(),
+             transforms.ToTensor(),
+             transforms.Normalize(mean=mean, std=std)])
 
         self.trainloader = DataLoader(torchvision.datasets.CIFAR10(root='./data', train=True,
                                                                    download=args.download_dataset,
