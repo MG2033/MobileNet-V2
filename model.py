@@ -6,10 +6,16 @@ class MobileNetV2(nn.Module):
     def __init__(self, args):
         super(MobileNetV2, self).__init__()
 
+        s1, s2 = 2, 2
+        if args.downsampling == 16:
+            s1, s2 = 2, 1
+        elif args.downsampling == 8:
+            s1, s2 = 1, 1
+
         # Network is created here, then will be unpacked into nn.sequential
-        self.network_settings = [{'t': -1, 'c': 32, 'n': 1, 's': 1},  # Because CIFAR-10 is 32x32, stride=1 is used here
+        self.network_settings = [{'t': -1, 'c': 32, 'n': 1, 's': s1},
                                  {'t': 1, 'c': 16, 'n': 1, 's': 1},
-                                 {'t': 6, 'c': 24, 'n': 2, 's': 1},  # Because CIFAR-10 is 32x32, stride=1 is used here
+                                 {'t': 6, 'c': 24, 'n': 2, 's': s2},
                                  {'t': 6, 'c': 32, 'n': 3, 's': 2},
                                  {'t': 6, 'c': 64, 'n': 4, 's': 2},
                                  {'t': 6, 'c': 96, 'n': 3, 's': 1},
@@ -25,7 +31,7 @@ class MobileNetV2(nn.Module):
         self.network = [
             conv2d_bn_relu6(args.num_channels, int(self.network_settings[0]['c'] * args.width_multiplier),
                             args.kernel_size,
-                            2, args.dropout_prob)]
+                            self.network_settings[0]['s'], args.dropout_prob)]
 
         # Layers from 1 to 7
         for i in range(1, 8):
@@ -45,7 +51,7 @@ class MobileNetV2(nn.Module):
         ###############################################################################################################
 
         # Classification part
-        self.network.append(nn.AvgPool2d((args.img_height // 32, args.img_width // 32)))
+        self.network.append(nn.AvgPool2d((args.img_height // args.downsampling, args.img_width // args.downsampling)))
         self.network.append(nn.Dropout2d(args.dropout_prob, inplace=True))
         self.network.append(
             nn.Conv2d(int(self.network_settings[8]['c'] * args.width_multiplier), self.num_classes, 1, bias=True))
