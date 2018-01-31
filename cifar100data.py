@@ -14,18 +14,26 @@ class CIFAR100Data:
                                                                      download=args.download_dataset).train_data,
                                        axis=(0, 1, 2))
 
-        transform = transforms.Compose(
-            [transforms.ToTensor(), transforms.Normalize(mean=mean, std=std)])
+        train_transform = transforms.Compose(
+            [transforms.RandomCrop(args.img_height),
+             transforms.RandomHorizontalFlip(),
+             transforms.ToTensor(),
+             transforms.Normalize(mean=mean, std=std)])
+
+        test_transform = transforms.Compose(
+            [transforms.ToTensor(),
+             transforms.Normalize(mean=mean, std=std)])
 
         self.trainloader = DataLoader(torchvision.datasets.CIFAR100(root='./data', train=True,
                                                                     download=args.download_dataset,
-                                                                    transform=transform),
+                                                                    transform=train_transform),
                                       batch_size=args.batch_size,
                                       shuffle=args.shuffle, num_workers=args.dataloader_workers,
                                       pin_memory=args.pin_memory)
 
         self.testloader = DataLoader(torchvision.datasets.CIFAR100(root='./data', train=False,
-                                                                   download=args.download_dataset, transform=transform),
+                                                                   download=args.download_dataset,
+                                                                   transform=test_transform),
                                      batch_size=args.batch_size,
                                      shuffle=False, num_workers=args.dataloader_workers, pin_memory=args.pin_memory)
 
