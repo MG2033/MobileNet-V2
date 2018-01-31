@@ -8,7 +8,7 @@
   "num_classes": 100,
   "batch_size": 32,
   "dataloader_workers": 4,
-  "download_dataset": false,
+  "download_dataset": true,
   "shuffle": true,
 
   "width_multiplier": 1.0,
