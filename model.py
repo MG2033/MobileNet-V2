@@ -7,9 +7,9 @@ class MobileNetV2(nn.Module):
         super(MobileNetV2, self).__init__()
 
         # Network is created here, then will be unpacked into nn.sequential
-        self.network_settings = [{'t': None, 'c': 32, 'n': 1, 's': 2},
+        self.network_settings = [{'t': -1, 'c': 32, 'n': 1, 's': 1},  # Because CIFAR-10 is 32x32, stride=1 is used here
                                  {'t': 1, 'c': 16, 'n': 1, 's': 1},
-                                 {'t': 6, 'c': 24, 'n': 2, 's': 2},
+                                 {'t': 6, 'c': 24, 'n': 2, 's': 1},  # Because CIFAR-10 is 32x32, stride=1 is used here
                                  {'t': 6, 'c': 32, 'n': 3, 's': 2},
                                  {'t': 6, 'c': 64, 'n': 4, 's': 2},
                                  {'t': 6, 'c': 96, 'n': 3, 's': 1},
