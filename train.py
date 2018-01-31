@@ -15,7 +15,6 @@ class Train:
         self.valloader = valloader
         self.args = args
         self.start_epoch = 0
-        self.global_step = 0
         self.best_top1 = 0.0
 
         # Loss function and Optimizer
@@ -67,13 +66,10 @@ class Train:
                 top1.update(cur_acc1[0])
                 top5.update(cur_acc5[0])
 
-                # Iteration Increment
-                self.global_step += 1
-
             # Summary Writing
-            self.summary_writer.add_scalar("iteration-loss", loss.avg, self.global_step)
-            self.summary_writer.add_scalar("iteration-top-1-acc", top1.avg, self.global_step)
-            self.summary_writer.add_scalar("iteration-top-5-acc", top5.avg, self.global_step)
+            self.summary_writer.add_scalar("epoch-loss", loss.avg, cur_epoch)
+            self.summary_writer.add_scalar("epoch-top-1-acc", top1.avg, cur_epoch)
+            self.summary_writer.add_scalar("epoch-top-5-acc", top5.avg, cur_epoch)
 
             # Print in console
             tqdm_batch.close()
@@ -89,7 +85,6 @@ class Train:
             self.best_top1 = max(top1.avg, self.best_top1)
             self.save_checkpoint({
                 'epoch': cur_epoch + 1,
-                'global_step': self.global_step,
                 'state_dict': self.model.state_dict(),
                 'best_top1': self.best_top1,
                 'optimizer': self.optimizer.state_dict(),
@@ -172,7 +167,6 @@ class Train:
             checkpoint = torch.load(filename)
             self.start_epoch = checkpoint['epoch']
             self.best_top1 = checkpoint['best_top1']
-            self.global_step = checkpoint['global_step']
             self.model.load_state_dict(checkpoint['state_dict'])
             self.optimizer.load_state_dict(checkpoint['optimizer'])
             print("Checkpoint loaded successfully from '{}' at (epoch {})\n"
