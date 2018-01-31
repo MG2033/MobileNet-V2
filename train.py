@@ -78,7 +78,7 @@ class Train:
 
             # Evaluate on Validation Set
             if cur_epoch % self.args.test_every == 0 and self.valloader:
-                self.test(self.valloader)
+                self.test(self.valloader, cur_epoch)
 
             # Checkpointing
             is_best = top1.avg > self.best_top1
@@ -90,7 +90,7 @@ class Train:
                 'optimizer': self.optimizer.state_dict(),
             }, is_best)
 
-    def test(self, testloader):
+    def test(self, testloader, cur_epoch=-1):
         loss, top1, top5 = AverageTracker(), AverageTracker(), AverageTracker()
 
         # Set the model to be in testing mode (for dropout and batchnorm)
@@ -110,6 +110,12 @@ class Train:
             loss.update(cur_loss.data[0])
             top1.update(cur_acc1[0])
             top5.update(cur_acc5[0])
+
+        if cur_epoch != -1:
+            # Summary Writing
+            self.summary_writer.add_scalar("test-loss", loss.avg, cur_epoch)
+            self.summary_writer.add_scalar("test-top-1-acc", top1.avg, cur_epoch)
+            self.summary_writer.add_scalar("test-top-5-acc", top5.avg, cur_epoch)
 
         print("Test Results" + " | " + "loss: " + str(loss.avg) + " - acc-top1: " + str(
             top1.avg)[:7] + "- acc-top5: " + str(top5.avg)[:7])
