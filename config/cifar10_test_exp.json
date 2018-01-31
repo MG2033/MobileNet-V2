@@ -5,7 +5,7 @@
   "img_height": 32,
   "img_width": 32,
   "num_channels": 3,
-  "num_classes": 100,
+  "num_classes": 10,
   "batch_size": 32,
   "dataloader_workers": 4,
   "download_dataset": true,
