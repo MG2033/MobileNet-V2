@@ -1,8 +1,11 @@
-from bunch import Bunch
-import json
 import argparse
+import json
 import os
+import sys
+from pprint import pprint
+
 import numpy as np
+from easydict import EasyDict as edict
 
 
 def parse_args():
@@ -20,12 +23,19 @@ def parse_args():
     args = parser.parse_args()
 
     # parse the configurations from the config json file provided
-    with open(args.config, 'r') as config_file:
-        config_args_dict = json.load(config_file)
-    # convert the dictionary to a namespace using bunch lib
-    config_args = Bunch(config_args_dict)
+    try:
+        with open(args.config, 'r') as config_file:
+            config_args_dict = json.load(config_file)
+    except FileNotFoundError:
+        print("File not found: {}".format(args.config))
+        print("ERROR: Config file not found!", file=sys.stderr)
+        exit(1)
+    except json.decoder.JSONDecodeError:
+        print("ERROR: Config file is not proper json!", file=sys.stderr)
+        exit(1)
+    config_args = edict(config_args_dict)
 
-    print(config_args)
+    pprint(config_args)
     return config_args
 
 

@@ -7,13 +7,7 @@ from train import Train
 
 def main():
     # Parse the JSON arguments
-    try:
-        config_args = parse_args()
-    except:
-        print(
-            "Add a config file using \'--config file_name.json\'. "
-            "If you added it correctly, make sure that it's in a valid json format.")
-        exit(1)
+    config_args = parse_args()
 
     # Create the experiment directories
     _, config_args.summary_dir, config_args.checkpoint_dir = create_experiment_dirs(config_args.experiment_dir)
