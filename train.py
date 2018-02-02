@@ -1,11 +1,13 @@
-import torch.optim
-import torch.nn as nn
-from torch.optim.rmsprop import RMSprop
-from torch.autograd import Variable
 import shutil
-from utils import AverageTracker
-from tqdm import tqdm
+
+import torch.nn as nn
+import torch.optim
 from tensorboardX import SummaryWriter
+from torch.autograd import Variable
+from torch.optim.rmsprop import RMSprop
+from tqdm import tqdm
+
+from utils import AverageTracker
 
 
 class Train:
@@ -48,7 +50,8 @@ class Train:
             for data, target in tqdm_batch:
 
                 if self.args.cuda:
-                    data, target = data.cuda(async=self.args.async_loading), target.cuda(async=self.args.async_loading)
+                    data, target = data.cuda(async=self.args.async_loading), target.cuda(
+                        async=self.args.async_loading)
                 data_var, target_var = Variable(data), Variable(target)
 
                 # Forward pass
@@ -73,7 +76,8 @@ class Train:
 
             # Print in console
             tqdm_batch.close()
-            print("Epoch-" + str(cur_epoch) + " | " + "loss: " + str(loss.avg) + " - acc-top1: " + str(
+            print("Epoch-" + str(cur_epoch) + " | " + "loss: " + str(
+                loss.avg) + " - acc-top1: " + str(
                 top1.avg)[:7] + "- acc-top5: " + str(top5.avg)[:7])
 
             # Evaluate on Validation Set
@@ -84,10 +88,10 @@ class Train:
             is_best = top1.avg > self.best_top1
             self.best_top1 = max(top1.avg, self.best_top1)
             self.save_checkpoint({
-                'epoch': cur_epoch + 1,
+                'epoch':      cur_epoch + 1,
                 'state_dict': self.model.state_dict(),
-                'best_top1': self.best_top1,
-                'optimizer': self.optimizer.state_dict(),
+                'best_top1':  self.best_top1,
+                'optimizer':  self.optimizer.state_dict(),
             }, is_best)
 
     def test(self, testloader, cur_epoch=-1):
@@ -98,7 +102,8 @@ class Train:
 
         for data, target in testloader:
             if self.args.cuda:
-                data, target = data.cuda(async=self.args.async_loading), target.cuda(async=self.args.async_loading)
+                data, target = data.cuda(async=self.args.async_loading), target.cuda(
+                    async=self.args.async_loading)
             data_var, target_var = Variable(data, volatile=True), Variable(target, volatile=True)
 
             # Forward pass

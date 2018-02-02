@@ -1,8 +1,9 @@
-from model import MobileNetV2
-from utils import parse_args, create_experiment_dirs
 import torch.backends.cudnn as cudnn
+
 from cifar10data import CIFAR10Data
+from model import MobileNetV2
 from train import Train
+from utils import parse_args, create_experiment_dirs
 
 
 def main():
@@ -10,7 +11,8 @@ def main():
     config_args = parse_args()
 
     # Create the experiment directories
-    _, config_args.summary_dir, config_args.checkpoint_dir = create_experiment_dirs(config_args.experiment_dir)
+    _, config_args.summary_dir, config_args.checkpoint_dir = create_experiment_dirs(
+        config_args.experiment_dir)
 
     model = MobileNetV2(config_args)
 

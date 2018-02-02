@@ -45,7 +45,8 @@ def create_experiment_dirs(exp_dir):
     :param exp_dir:
     :return summary_dir, checkpoint_dir:
     """
-    experiment_dir = os.path.realpath(os.path.join(os.path.dirname(__file__))) + "/experiments/" + exp_dir + "/"
+    experiment_dir = os.path.realpath(
+        os.path.join(os.path.dirname(__file__))) + "/experiments/" + exp_dir + "/"
     summary_dir = experiment_dir + 'summaries/'
     checkpoint_dir = experiment_dir + 'checkpoints/'
 
@@ -63,7 +64,8 @@ def create_experiment_dirs(exp_dir):
 
 
 def calc_dataset_stats(dataset, axis=0, ep=1e-7):
-    return (np.mean(dataset, axis=axis) / 255.0).tolist(), (np.std(dataset + ep, axis=axis) / 255.0).tolist()
+    return (np.mean(dataset, axis=axis) / 255.0).tolist(), (
+            np.std(dataset + ep, axis=axis) / 255.0).tolist()
 
 
 class AverageTracker:
