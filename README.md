@@ -23,7 +23,7 @@ This implementation was made to be an example of a common deep learning software
  ```
 ### Train and Test
 1. Prepare your data, then create a dataloader class such as `cifar10data.py` and `cifar100data.py`.
-2. Create a .json config file for your experiments. Use the given .json config files as reference.
+2. Create a .json config file for your experiments. Use the given .json config files as a reference.
 
 ### Run
 ```
