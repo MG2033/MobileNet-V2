@@ -1,4 +1,5 @@
 import torch.nn as nn
+
 from layers import inverted_residual_sequence, conv2d_bn_relu6
 
 
@@ -29,17 +30,19 @@ class MobileNetV2(nn.Module):
         # Feature Extraction part
         # Layer 0
         self.network = [
-            conv2d_bn_relu6(args.num_channels, int(self.network_settings[0]['c'] * args.width_multiplier),
+            conv2d_bn_relu6(args.num_channels,
+                            int(self.network_settings[0]['c'] * args.width_multiplier),
                             args.kernel_size,
                             self.network_settings[0]['s'], args.dropout_prob)]
 
         # Layers from 1 to 7
         for i in range(1, 8):
             self.network.extend(
-                inverted_residual_sequence(int(self.network_settings[i - 1]['c'] * args.width_multiplier),
-                                           int(self.network_settings[i]['c'] * args.width_multiplier),
-                                           self.network_settings[i]['n'], self.network_settings[i]['t'],
-                                           args.kernel_size, self.network_settings[i]['s']))
+                inverted_residual_sequence(
+                    int(self.network_settings[i - 1]['c'] * args.width_multiplier),
+                    int(self.network_settings[i]['c'] * args.width_multiplier),
+                    self.network_settings[i]['n'], self.network_settings[i]['t'],
+                    args.kernel_size, self.network_settings[i]['s']))
 
         # Last layer before flattening
         self.network.append(
@@ -52,10 +55,12 @@ class MobileNetV2(nn.Module):
 
         # Classification part
         self.network.append(nn.Dropout2d(args.dropout_prob, inplace=True))
-        self.network.append(nn.AvgPool2d((args.img_height // args.downsampling, args.img_width // args.downsampling)))
+        self.network.append(nn.AvgPool2d(
+            (args.img_height // args.downsampling, args.img_width // args.downsampling)))
         self.network.append(nn.Dropout2d(args.dropout_prob, inplace=True))
         self.network.append(
-            nn.Conv2d(int(self.network_settings[8]['c'] * args.width_multiplier), self.num_classes, 1, bias=True))
+            nn.Conv2d(int(self.network_settings[8]['c'] * args.width_multiplier), self.num_classes,
+                      1, bias=True))
 
         self.network = nn.Sequential(*self.network)
 

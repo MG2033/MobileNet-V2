@@ -1,8 +1,11 @@
-from easydict import EasyDict
-import json
 import argparse
+import json
 import os
+import sys
+from pprint import pprint
+
 import numpy as np
+from easydict import EasyDict as edict
 
 
 def parse_args():
@@ -20,14 +23,19 @@ def parse_args():
     args = parser.parse_args()
 
     # parse the configurations from the config json file provided
-    with open(args.config, 'r') as config_file:
-        config_args_dict = json.load(config_file)
-    # convert the dictionary to a namespace using easydict lib
-    config_args = EasyDict(config_args_dict)
+    try:
+        with open(args.config, 'r') as config_file:
+            config_args_dict = json.load(config_file)
+    except FileNotFoundError:
+        print("File not found: {}".format(args.config))
+        print("ERROR: Config file not found!", file=sys.stderr)
+        exit(1)
+    except json.decoder.JSONDecodeError:
+        print("ERROR: Config file is not proper json!", file=sys.stderr)
+        exit(1)
+    config_args = edict(config_args_dict)
 
-    for key, value in config_args.items():
-        print(key + " :", value)
-    print("\n")
+    pprint(config_args)
     return config_args
 
 
@@ -37,7 +45,8 @@ def create_experiment_dirs(exp_dir):
     :param exp_dir:
     :return summary_dir, checkpoint_dir:
     """
-    experiment_dir = os.path.realpath(os.path.join(os.path.dirname(__file__))) + "/experiments/" + exp_dir + "/"
+    experiment_dir = os.path.realpath(
+        os.path.join(os.path.dirname(__file__))) + "/experiments/" + exp_dir + "/"
     summary_dir = experiment_dir + 'summaries/'
     checkpoint_dir = experiment_dir + 'checkpoints/'
 
@@ -55,7 +64,8 @@ def create_experiment_dirs(exp_dir):
 
 
 def calc_dataset_stats(dataset, axis=0, ep=1e-7):
-    return (np.mean(dataset, axis=axis) / 255.0).tolist(), (np.std(dataset + ep, axis=axis) / 255.0).tolist()
+    return (np.mean(dataset, axis=axis) / 255.0).tolist(), (
+            np.std(dataset + ep, axis=axis) / 255.0).tolist()
 
 
 class AverageTracker:

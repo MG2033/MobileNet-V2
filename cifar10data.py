@@ -1,9 +1,10 @@
+import matplotlib.pyplot as plt
+import numpy as np
 import torchvision
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
-import matplotlib.pyplot as plt
+
 from utils import calc_dataset_stats
-import numpy as np
 
 
 # Example DataLoader on CIFAR-10
@@ -36,7 +37,8 @@ class CIFAR10Data:
                                                                   download=args.download_dataset,
                                                                   transform=test_transform),
                                      batch_size=args.batch_size,
-                                     shuffle=False, num_workers=args.dataloader_workers, pin_memory=args.pin_memory)
+                                     shuffle=False, num_workers=args.dataloader_workers,
+                                     pin_memory=args.pin_memory)
 
     def plot_random_sample(self):
         # Get some random training images
