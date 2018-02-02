@@ -34,7 +34,7 @@ python main.py config/yourjsonconfigfile.json
 Due to the lack of computational power. I trained on CIFAR-10 dataset as an example to prove correctness, and was able to achieve test top1-accuracy of 90.9%.
 
 
-## Tensorboard Visualization
+#### Tensorboard Visualization
 Tensorboard is integrated with the project using `tensorboardX` library which proved to be very useful as there is no official visualization library in pytorch.
 
 These are the learning curves for the CIFAR-10 experiment.
