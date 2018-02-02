@@ -1,4 +1,4 @@
-from bunch import Bunch
+from easydict import EasyDict
 import json
 import argparse
 import os
@@ -22,8 +22,8 @@ def parse_args():
     # parse the configurations from the config json file provided
     with open(args.config, 'r') as config_file:
         config_args_dict = json.load(config_file)
-    # convert the dictionary to a namespace using bunch lib
-    config_args = Bunch(config_args_dict)
+    # convert the dictionary to a namespace using easydict lib
+    config_args = EasyDict(config_args_dict)
 
     print(config_args)
     return config_args

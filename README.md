@@ -17,7 +17,7 @@ This implementation was made to be an example of a common deep learning software
  pytorch 0.3
  numpy 1.13.1
  tqdm 4.15.0
- bunch 1.0.1
+ EasyDict 1.7
  matplotlib 2.0.2
  tensorboardX 1.0
  ```
