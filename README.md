@@ -34,7 +34,7 @@ pip install -r requirements.txt
 
 ### Run
 ```
-python main.py config/yourjsonconfigfile.json
+python main.py config/<your-config-json-file>.json
 ```
 
 ### Experiments
