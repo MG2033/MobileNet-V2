@@ -1,7 +1,7 @@
 from model import MobileNetV2
 from utils import parse_args, create_experiment_dirs
 import torch.backends.cudnn as cudnn
-from cifar10data import CIFAR10Data
+from cifar100data import CIFAR100Data
 from train import Train
 
 
@@ -12,7 +12,7 @@ def main():
     except:
         print(
             "Add a config file using \'--config file_name.json\'. "
-            "If you added it correctly, make sure that it's in a valid json format.")
+            "If you added it correctly, make sure that it's a valid json format.")
         exit(1)
 
     # Create the experiment directories
@@ -26,7 +26,7 @@ def main():
         cudnn.benchmark = True
 
     print("Loading Data...")
-    data = CIFAR10Data(config_args)
+    data = CIFAR100Data(config_args)
     # data.plot_random_sample()
     print("Data loaded successfully\n")
 
