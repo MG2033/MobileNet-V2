@@ -18,7 +18,7 @@ This project uses Python3 and Pytorch 0.3.
  pytorch 0.3
  numpy 1.13.1
  tqdm 4.15.0
- bunch 1.0.1
+ easydict 1.7
  matplotlib 2.0.2
  tensorboardX 1.0
  ```
