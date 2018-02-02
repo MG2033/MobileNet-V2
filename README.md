@@ -13,7 +13,7 @@ This implementation was made to be an example of a common deep learning software
 ## Usage
 ### Main Dependencies
  ```
- Python 3 and above
+ Python 3.5
  pytorch 0.3
  numpy 1.13.1
  tqdm 4.15.0
