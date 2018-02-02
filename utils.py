@@ -22,20 +22,27 @@ def parse_args():
     # Parse the arguments
     args = parser.parse_args()
 
-    # parse the configurations from the config json file provided
+    # Parse the configurations from the config json file provided
     try:
-        with open(args.config, 'r') as config_file:
-            config_args_dict = json.load(config_file)
+        if args.config is not None:
+            with open(args.config, 'r') as config_file:
+                config_args_dict = json.load(config_file)
+        else:
+            print("Add a config file using \'--config file_name.json\'", file=sys.stderr)
+            exit(1)
+
     except FileNotFoundError:
-        print("File not found: {}".format(args.config))
-        print("ERROR: Config file not found!", file=sys.stderr)
+        print("ERROR: Config file not found: {}".format(args.config), file=sys.stderr)
         exit(1)
     except json.decoder.JSONDecodeError:
         print("ERROR: Config file is not a proper JSON file!", file=sys.stderr)
         exit(1)
+
     config_args = edict(config_args_dict)
 
     pprint(config_args)
+    print("\n")
+
     return config_args
 
 
