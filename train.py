@@ -88,10 +88,10 @@ class Train:
             is_best = top1.avg > self.best_top1
             self.best_top1 = max(top1.avg, self.best_top1)
             self.save_checkpoint({
-                'epoch':      cur_epoch + 1,
+                'epoch': cur_epoch + 1,
                 'state_dict': self.model.state_dict(),
-                'best_top1':  self.best_top1,
-                'optimizer':  self.optimizer.state_dict(),
+                'best_top1': self.best_top1,
+                'optimizer': self.optimizer.state_dict(),
             }, is_best)
 
     def test(self, testloader, cur_epoch=-1):

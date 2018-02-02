@@ -40,21 +40,6 @@ class CIFAR10Data:
                                      shuffle=False, num_workers=args.dataloader_workers,
                                      pin_memory=args.pin_memory)
 
-    def plot_random_sample(self):
-        # Get some random training images
-        dataiter = iter(self.trainloader)
-        images, labels = dataiter.next()
-        print(images[0])
-        exit(1)
-        # Show images
-        grid = torchvision.utils.make_grid(images)
-        img = grid / 2 + 0.5
-        npimg = img.numpy()
-        plt.imshow(np.transpose(npimg, (1, 2, 0)))
-        plt.show()
-        # Print labels
-        print(' '.join('%5s' % CIFAR10_LABELS_LIST[labels[j]] for j in range(len(labels))))
-
 
 CIFAR10_LABELS_LIST = [
     'airplane',

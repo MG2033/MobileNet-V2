@@ -23,7 +23,6 @@ def main():
 
     print("Loading Data...")
     data = CIFAR10Data(config_args)
-    # data.plot_random_sample()
     print("Data loaded successfully\n")
 
     trainer = Train(model, data.trainloader, data.testloader, config_args)

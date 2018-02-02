@@ -31,7 +31,7 @@ def parse_args():
         print("ERROR: Config file not found!", file=sys.stderr)
         exit(1)
     except json.decoder.JSONDecodeError:
-        print("ERROR: Config file is not proper json!", file=sys.stderr)
+        print("ERROR: Config file is not a proper JSON file!", file=sys.stderr)
         exit(1)
     config_args = edict(config_args_dict)
 

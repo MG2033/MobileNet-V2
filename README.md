@@ -23,7 +23,7 @@ This project uses Python3 and Pytorch 0.3.
  tensorboardX 1.0
  ```
 
-Install denendencies:
+Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
@@ -44,7 +44,7 @@ Due to the lack of computational power. I trained on CIFAR-10 dataset as an exam
 #### Tensorboard Visualization
 Tensorboard is integrated with the project using `tensorboardX` library which proved to be very useful as there is no official visualization library in pytorch.
 
-Start it using:
+You can start it using:
 ```bash
 tensorboard --logdir experimenets/<config-name>/summaries
 ```
