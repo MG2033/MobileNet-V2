@@ -56,7 +56,7 @@ These are the learning curves for the CIFAR-10 experiment.
 </div>
 
 ## TODO
-1. Measuring FLOPS on this architecture to compare with other realtime architectures. PyTorch doesn't have a profiler like TensorFlow's. So, I'll be working on measuring FLOPS on my own.
+Measuring FLOPS on this architecture to compare with other realtime architectures. PyTorch doesn't have a profiler like TensorFlow's. So, I'll be working on measuring FLOPS on my own.
 
 ## License
 This project is licensed under the Apache License 2.0 - see the LICENSE file for details.
