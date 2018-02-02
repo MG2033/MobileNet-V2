@@ -23,7 +23,7 @@ This implementation was made to be an example of a common deep learning software
  ```
 ### Train and Test
 1. Prepare your data, then create a dataloader class such as `cifar10data.py` and `cifar100data.py`.
-2. Create a .json config file for your experiments. Use the given .json config files as reference.
+2. Create a .json config file for your experiments. Use the given .json config files as a reference.
 
 ### Run
 ```
@@ -34,7 +34,7 @@ python main.py config/yourjsonconfigfile.json
 Due to the lack of computational power. I trained on CIFAR-10 dataset as an example to prove correctness, and was able to achieve test top1-accuracy of 90.9%.
 
 
-## Tensorboard Visualization
+#### Tensorboard Visualization
 Tensorboard is integrated with the project using `tensorboardX` library which proved to be very useful as there is no official visualization library in pytorch.
 
 These are the learning curves for the CIFAR-10 experiment.
