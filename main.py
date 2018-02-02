@@ -10,7 +10,9 @@ def main():
     try:
         config_args = parse_args()
     except:
-        print("Add a config file using \'--config file_name.json\'")
+        print(
+            "Add a config file using \'--config file_name.json\'. "
+            "If you added it correctly, make sure that it's in a valid json format.")
         exit(1)
 
     # Create the experiment directories
