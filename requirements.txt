@@ -1,0 +1,5 @@
+numpy==1.13.1
+tqdm==4.15.0
+easydict==1.7
+matplotlib==2.0.2
+tensorboardX==1.0

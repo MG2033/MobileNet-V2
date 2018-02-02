@@ -11,9 +11,10 @@ This implementation was made to be an example of a common deep learning software
 </div>
 
 ## Usage
+This project uses Python3 and Pytorch 0.3.
+
 ### Main Dependencies
  ```
- Python 3.5
  pytorch 0.3
  numpy 1.13.1
  tqdm 4.15.0
@@ -21,6 +22,12 @@ This implementation was made to be an example of a common deep learning software
  matplotlib 2.0.2
  tensorboardX 1.0
  ```
+
+Install denendencies:
+```bash
+pip install -r requirements.txt
+```
+
 ### Train and Test
 1. Prepare your data, then create a dataloader class such as `cifar10data.py` and `cifar100data.py`.
 2. Create a .json config file for your experiments. Use the given .json config files as a reference.
