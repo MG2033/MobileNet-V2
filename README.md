@@ -44,6 +44,11 @@ Due to the lack of computational power. I trained on CIFAR-10 dataset as an exam
 #### Tensorboard Visualization
 Tensorboard is integrated with the project using `tensorboardX` library which proved to be very useful as there is no official visualization library in pytorch.
 
+Start it using:
+```bash
+tensorboard --logdir experimenets/<config-name>/summaries
+```
+
 These are the learning curves for the CIFAR-10 experiment.
 
 <div align="center">
