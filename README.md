@@ -11,7 +11,7 @@ This implementation was made to be an example of a common deep learning software
 </div>
 
 ## Usage
-This project uses Python3 and Pytorch 0.3.
+This project uses Python 3.5.3 and PyTorch 0.3.
 
 ### Main Dependencies
  ```
